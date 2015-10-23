@@ -6,3 +6,5 @@
 
 * [工作备忘录](./MEMO.md)
 * [产品需求文档](./docs/PRD.md)
+* 原型设计
+    * [主编辑页面](./design/editor.png)
