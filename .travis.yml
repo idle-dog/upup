@@ -11,9 +11,7 @@ install:
 - npm install fis
 - fis -v
 script:
-- cd src
-- fis release -Documpd ../output
-- cd ..
+- fis release -r ./src -Documpd ./output
 after_success:
 - sh .build.sh
 cache:
