@@ -52,4 +52,4 @@ fis release -wL
 
 ## 第九步：提交
 
-功能开发完成后，即可提交代码，并发起 pull request 合并至当前项目中。
+功能开发完成后，即可提交代码，并发起 pull request 合并至当前项目中，一旦代码被合并，就会触发 travis-ci 自动构建，届时可以访问 http://idle-dog.github.io/upup/ 查看测试环境运行效果。
