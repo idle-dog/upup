@@ -1,0 +1,1 @@
+define("page/index",function(e,d,n){n.exports=Vue.extend({template:"<w-header></w-header>",components:{"w-header":e("widget/header")}})});

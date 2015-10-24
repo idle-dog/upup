@@ -1,0 +1,1 @@
+define("widget/header",function(e,t,n){n.exports=Vue.extend({template:'<div class="w-header">\n    <h1>{{title}}</h1>\n</div>',data:function(){return{title:"未命名标题"}}})});
