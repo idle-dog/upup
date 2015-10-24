@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+- '0.10'
+env:
+  global:
+  - GH_PAGES_DEPLOY: YES
+  - PATH: node_modules/.bin/:$PATH
+  - REPO_SLUG: idle-dog/upup
+  - secure: dRG3aZiBO9p7oxHXJ/JLI6I6IbmFFrFs380R17upqlWZpCFnCTyrHVm+nqXJEOWn3cpwtMs2lZRffXUgA/a9nhoecsK7YTbaZBJFGn4Oz2nIupz9eq9xDq2NiJwfj3s9qUBYANaVXc9n2crX60zgmZTW0msVhl19Bl/8dYLOoMdhtUZyfBp0drYY0lGMAdD0fha16FbsKwu/eTpXXpip7sIFfNoDYNG65Yrrsy89rQShI3CuGDVuTBjJYqA+aJr04i8I2OcXK0Qf5YOmU1R6UJv/m6iRB1tJguVun4psylH6iXkHtnWipNpkKHUJ1nNv5W5Zz0ru0SD4ZF7ZksO9FCyoTlyavSD1h5XIEsirJTBByJ8MEaC4hOx9/2JwFcqL9ZZn2tgyIshCVUQpCyrJ7Rcyt8yj2PiaI0/IwOr6nLFPkspR3JL5700qAhMdTQynl/1KMdUPjQHSsVUky9AKeOCRSUBX89TyILHnismv6sb3ny2Yq8Eao3Ped2o0Xne/F8Lq8TdSR/Pxlu7QYfjQz5agaAmeO/z+HOYh5sx16viDcxZzWa9n9HLbbP1eZwdg+Xj5eYvlcHGS9mIR0J+GNXbotaR+XuWc4TJikOEwT/SzUtM9hRaHhnUwuf+Ffe3jMxFS33MRBeLjPn5onObc/QN5y0ftUTAdMrh3FwztEAg=
+install:
+- npm install fis
+- fis -v
+script:
+- cd src
+- fis release -Documpd ../output
+- cd ..
+after_success:
+- sh .build.sh
+cache:
+  directories:
+  - node_modules
+branches:
+  only:
+  - master

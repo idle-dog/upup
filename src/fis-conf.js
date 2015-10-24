@@ -33,6 +33,11 @@ fis.config.set('roadmap.path', [
     }
 ]);
 
+// 在travis-ci上构建时添加 /upup 路径作为前缀
+if(process.env.GH_PAGES_DEPLOY){
+    fis.config.set('roadmap.domain', '/upup');
+}
+
 /**
  * 针对所有js文件，判断文件对象的isMod属性是否为true，
  * 如果为true，则包裹define，进行模块化封装
