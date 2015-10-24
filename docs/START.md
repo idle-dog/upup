@@ -10,8 +10,10 @@
 
 ## 第三步：克隆仓库
 
+首先你需要 [fork](https://help.github.com/articles/fork-a-repo/) 本项目，然后将fork的仓库clone到本地：
+
 ```bash
-git clone git@github.com:idle-dog/upup.git
+git clone git@github.com:[你的用户名]/upup.git
 cd upup
 ```
 
