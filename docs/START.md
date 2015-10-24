@@ -44,7 +44,7 @@ fis release -wL
 
 ## 第七步：预览
 
-使用浏览器访问 ``http://localhost:8080/`` 进行项目预览
+使用浏览器访问 http://localhost:8080/ 进行项目预览
 
 ## 第八步：开发
 
