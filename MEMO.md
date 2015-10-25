@@ -10,10 +10,11 @@
     - [x] [原型设计](./design/prototype/editor.png)
     - [ ] [界面设计](https://github.com/idle-dog/upup/issues/2)
 - [ ] 技术选型（2015.10.24-2015.10.24）
-    - [x] [模块化方案](https://github.com/fouber/md.js)
-    - [x] [资源管理方案](./src/fis-conf.js)
-    - [x] [组件化框架](http://vuejs.org/)
-- [ ] 规范定制
+    - [x] 构建工具: [fis2](http://fex-team.github.io/fis-site/)
+    - [x] 模块化规范: [CommonJS Modules/1.0](http://wiki.commonjs.org/wiki/Modules/1.0)
+    - [x] 模块化框架: [md.js](https://github.com/fouber/md.js)
+    - [x] 组件化框架: [vue.js](http://vuejs.org/)
+- [x] 规范定制（2015.10.25-015.10.25）
 - [x] 基础搭建（2015.10.24-015.10.25）
     - [x] 初始项目
     - [x] 持续集成

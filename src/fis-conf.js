@@ -12,7 +12,7 @@ fis.config.set('roadmap.path', [
         reg: 'module/**.html',  // module目录下的html后缀文件
         release: false          // 不发布（在js中inline使用）
     }, {
-        reg: '*.html',          // 根目录下的html后缀文件
+        reg: '**.html',         // 其他html后缀的文件
         isPage: true,           // 添加 isPage:true 属性（打包插件中用到）
         isMod: true,            // 添加 isMod:true 属性（后处理插件中到）
         useCache: false         // 无缓存构建
