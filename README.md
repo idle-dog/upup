@@ -2,6 +2,8 @@
 
 组织社会闲散码农做的第一个项目，灵感来源 [举牌小人](http://upuptoyou.com/)
 
+![](design/prototype/editor.png)
+
 当前项目预览地址: http://idle-dog.github.io/upup/
 
 ## 项目文档
