@@ -1,1 +1,0 @@
-define("widget/textarea",function(e,t,a){a.exports=Vue.extend({template:'<div class="w-textarea">\n    <div class="w-textarea_inner">\n        <textarea class="w-textarea_editor" placeholder="输入举牌文字"></textarea>\n    </div>\n</div>'})});
