@@ -1,0 +1,1 @@
+define("widget/bgcolor",function(e,n,o){o.exports=Vue.extend({template:'<div class="w-bgcolor">\n    背景色拾取\n</div>'})});

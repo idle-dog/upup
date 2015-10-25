@@ -1,0 +1,1 @@
+define("common/store",function(n,t){"use strict";t.get=function(n,t){return t},t.set=function(){}});

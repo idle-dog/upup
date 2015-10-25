@@ -1,0 +1,1 @@
+define("widget/zoom",function(e,o,n){n.exports=Vue.extend({template:'<div class="w-zoom">\n    缩放倍数 {{scale}}\n</div>',props:["scale"]})});

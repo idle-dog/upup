@@ -1,0 +1,1 @@
+define("widget/material",function(e,i,t){t.exports=["/upup/module/widget/material/img/0_9c9d62a.png","/upup/module/widget/material/img/1_09ffe04.png"]});
