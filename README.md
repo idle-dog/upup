@@ -6,6 +6,6 @@
 
 * [新手指引](./docs/START.md)
 * [需求文档](./docs/PRD.md)
-* [原型设计](./design/editor.png)
+* [原型设计](./design/prototype/editor.png)
 * [开发规范](./docs/DEV.md)
 * [备忘录](./MEMO.md)
