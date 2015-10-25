@@ -1,0 +1,1 @@
+define("widget/toolbar",function(n,t,o){o.exports=Vue.extend({template:'<div class="w-toolbar">\n    <button v-on:click="onSave">保存</button>\n    <button v-on:click="onShare">分享</button>\n</div>',methods:{onSave:function(){alert("保存")},onShare:function(){alert("分享")}}})});
