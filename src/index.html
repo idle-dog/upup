@@ -11,14 +11,13 @@
     <script>
         /**
          * 页面启动代码
-         * 
-         * 使用注释标记对非模块化资源的依赖关系，以供打包插件分析
+         *
+         * @require /lib/normalize.css
          * @require /lib/vue.js
          * @require /lib/md.js
          */
         define(function(require){
-            var Index = require('page/index');
-            new Index({ el: 'body', replace: false });
+            require('page/index').init('body');
         });
     </script>
 </body>

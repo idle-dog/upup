@@ -1,0 +1,17 @@
+.w-display {
+    height: 200px;
+    background: #ccc;
+    position: relative;
+}
+
+.w-display_zoom {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.w-display_refresh {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}

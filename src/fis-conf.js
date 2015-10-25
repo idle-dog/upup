@@ -44,7 +44,7 @@ fis.config.set('modules.postprocessor.js', function (content, file) {
         // 只有文件isMod属性为true的js才会被包裹define
         content = "define('" + file.getId() + "', " +
             "function(require, exports, module){" +
-            content + "})";
+            content + "\n})";
     }
     return content;
 });
