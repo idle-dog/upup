@@ -3,9 +3,9 @@
 if [ -d output ]; then
     echo "➥ Commit files"
     git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/${REPO_SLUG}.git ${REPO_SLUG} > /dev/null
+    rm -rf ${REPO_SLUG}/*
+    cp -fr output/* ${REPO_SLUG}
     cd ${REPO_SLUG}
-    rm -rf *
-    cp -rf ../output/* .
     ls -l
     git config user.email "travis@travis-ci.org"
     git config user.name "travis-ci"
