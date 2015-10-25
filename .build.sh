@@ -5,7 +5,7 @@ if [ -d output ]; then
     git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/${REPO_SLUG}.git ${REPO_SLUG} > /dev/null
     cd ${REPO_SLUG}
     rm -rf *
-    cp -a ../output/* .
+    cp -rf ../output/* .
     ls -l
     git config user.email "travis@travis-ci.org"
     git config user.name "travis-ci"
