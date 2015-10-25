@@ -14,8 +14,10 @@
 
 ```bash
 git clone git@github.com:[你的用户名]/upup.git
-cd upup
+cd upup/src
 ```
+
+> 注意，要进入到 ``src`` 目录下进行操作!
 
 ## 第四步：安装fis
 
