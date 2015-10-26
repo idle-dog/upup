@@ -1,0 +1,1 @@
+define("widget/textarea",function(e,t,a){a.exports=Vue.extend({template:'<div class="w-textarea">\n    <pre class="w-textarea_display">{{content}}<br/></pre>\n    <textarea\n        class="w-textarea_editor"\n        :placeholder="placeholder"\n        v-model="content"></textarea>\n</div>\n',props:{content:String,placeholder:{type:String,"default":"输入举牌文字"}}})});
