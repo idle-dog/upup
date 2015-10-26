@@ -11,6 +11,9 @@
     padding: 2px 15px;
     line-height: 28px;
     font-size: 14px;
+    word-break: break-all;
+    word-wrap: break-word;
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
 }
 
 .w-textarea_display {
