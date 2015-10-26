@@ -1,0 +1,1 @@
+.w-bgcolor{height:40px;background:#cef;padding:10px}.w-bgcolor_color{height:26px;width:26px;border:2px solid #000;margin:7px 0 7px 7px;float:left}.w-bgcolor_selected{transform:scale(1.2);animation:highlight .5s}@keyframes highlight{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1.2)}}
