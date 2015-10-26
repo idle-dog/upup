@@ -1,54 +1,24 @@
 .w-textarea {
-    min-height: 100px;
     position: relative;
-}
-
-.w-textarea_inner textarea, .w-textarea_inner pre {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    border: 0;
     min-height: 100px;
+    height: 100%;
 }
 
-.w-textarea_inner {
-    position: relative;
-    border: 1px solid #888;
-    background: #fff;
-}
-
-.w-textarea_inner > textarea,
-.w-textarea_inner > pre {
-    padding: 5px;
-    background: transparent;
-    font: 400 13px/16px helvetica, arial, sans-serif;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-
-.w-textarea_inner > textarea {
+.w-textarea_editor {
     -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
     box-sizing: border-box;
-    width: 100%;
-    height: 100px;
-}
-
-.w-textarea_inner.active > textarea {
-    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 8px;
+    border: 0;
+    background-image: -webkit-linear-gradient(left, white 10px, transparent 10px), -webkit-linear-gradient(right, white 10px, transparent 10px), -webkit-linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-image: linear-gradient(left, white 10px, transparent 10px), linear-gradient(right, white 10px, transparent 10px), linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
+    background-size: 100% 100%, 100% 100%, 100% 31px;
+    line-height: 31px;
     resize: none;
-}
-
-.w-textarea_inner > pre {
-    display: none;
-}
-
-.w-textarea_inner.active > pre {
-    display: block;
-    visibility: hidden;
+    overflow: hidden;
 }
