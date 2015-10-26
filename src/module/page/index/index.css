@@ -1,12 +1,8 @@
-.p-index {}
+.p-index {
+    padding-bottom: 40px;
+}
 .p-index_toolbar {
     position: fixed;
     bottom: 5px;
     right: 5px;
-}
-.p-index_textarea {
-	position: absolute;
-	top: 236px;
-	bottom: 40px;
-	width: 100%;
 }

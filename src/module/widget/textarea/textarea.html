@@ -1,3 +1,7 @@
 <div class="w-textarea">
-    <textarea class="w-textarea_editor" :placeholder="placeholder" v-model="content"></textarea>
+    <pre class="w-textarea_display">{{content}}<br/></pre>
+    <textarea
+        class="w-textarea_editor"
+        :placeholder="placeholder"
+        v-model="content"></textarea>
 </div>
