@@ -1,9 +1,13 @@
 <div class="p-index">
     <div class="p-index_display">
-        <w-display></w-display>
+        <w-display
+            :color="color"
+            :content="content"
+            :scale.sync="scale">
+        </w-display>
     </div>
     <div class="p-index_bgcolor">
-        <w-bgcolor></w-bgcolor>
+        <w-bgcolor :color.sync="color"></w-bgcolor>
     </div>
     <div class="p-index_textarea">
         <w-textarea :content.sync="content" placeholder=""></w-textarea>
