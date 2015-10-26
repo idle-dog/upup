@@ -1,6 +1,6 @@
 .w-textarea {
     position: relative;
-    min-height: 100px;
+    min-height: 150px;
     height: 100%;
 }
 
@@ -8,9 +8,9 @@
 .w-textarea_editor {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 2px 15px;
-    line-height: 28px;
-    font-size: 14px;
+    padding: 8px 15px;
+    line-height: 35px;
+    font-size: 18px;
     word-break: break-all;
     word-wrap: break-word;
     font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
@@ -32,12 +32,12 @@
     resize: none;
     overflow: hidden;
     background-image:
-        -webkit-linear-gradient(left, white 5px, transparent 40px),
-        -webkit-linear-gradient(right, white 5px, transparent 40px),
-        -webkit-linear-gradient(white 27px, #ccc 27px, #ccc 28px, white 28px);
+        -webkit-linear-gradient(left, white 15px, transparent 0px),
+        -webkit-linear-gradient(right, white 15px, transparent 0px),
+        -webkit-linear-gradient(white 34px, #ccc 34px, #ccc 35px, white 35px);
     background-image:
-        linear-gradient(left, white 10px, transparent 40px),
-        linear-gradient(right, white 10px, transparent 40px),
-        linear-gradient(white 30px, #ccc 30px, #ccc 31px, white 31px);
-    background-size: 100% 100%, 100% 100%, 100% 28px;
+        linear-gradient(left, white 15px, transparent 0px),
+        linear-gradient(right, white 15px, transparent 0px),
+        linear-gradient(white 34px, #ccc 34px, #ccc 35px, white 35px);
+    background-size: 100% 100%, 100% 100%, 100% 35px;
 }
