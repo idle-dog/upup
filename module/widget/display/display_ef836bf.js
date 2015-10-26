@@ -1,1 +1,0 @@
-define("widget/display",function(d,o,s){s.exports=Vue.extend({template:'<div class="w-display">\n    这里是显示区\n    <div class="w-display_zoom">\n        <w-zoom scale="1"></w-zoom>\n    </div>\n    <div class="w-display_refresh">\n        刷新\n    </div>\n</div>',props:["data"],components:{"w-zoom":d("widget/zoom")}})});
