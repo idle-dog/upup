@@ -12,4 +12,5 @@
 * [需求文档](./docs/PRD.md)
 * [原型设计](./design/prototype/editor.png)
 * [开发规范](./docs/DEV.md)
+* [代码提交规范](./docs/PR.md)
 * [备忘录](./MEMO.md)

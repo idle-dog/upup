@@ -4,7 +4,7 @@
 
 module.exports = Vue.extend({
     template: __inline('display.html'),
-    props: [ 'data' ],
+    props: [ 'content', 'scale', 'color' ],
     components: {
         'w-zoom': require('widget/zoom')
     }
