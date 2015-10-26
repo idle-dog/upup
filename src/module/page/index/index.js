@@ -5,7 +5,7 @@ exports.init = function (selector, options) {
         el: selector,
         data: function () {
             return {
-                content: 'what are u 弄啥呢'
+                content: ''
             }
         },
         replace: false,
