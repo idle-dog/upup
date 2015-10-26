@@ -9,7 +9,7 @@ module.exports = Vue.extend({
             colors: [{
                 rgb: '#E50012'
             }, {
-                rgb: '#EA5415'
+                rgb: '#FC7D63'
             }, {
                 rgb: '#F49EC0'
             }, {
