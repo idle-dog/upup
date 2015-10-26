@@ -13,7 +13,7 @@ install:
 script:
 - fis release -r ./src -Documpd ./output
 after_success:
-- sh .build.sh
+- sh .deploy.sh
 cache:
   directories:
   - node_modules

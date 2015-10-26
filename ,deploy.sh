@@ -6,7 +6,7 @@ if [ -d output ]; then
     rm -rf ${REPO_SLUG}/*
     cp -rf output/* ${REPO_SLUG}
     cd ${REPO_SLUG}
-    ls -l
+    git status
     git config user.email "travis@travis-ci.org"
     git config user.name "travis-ci"
     git add -A
