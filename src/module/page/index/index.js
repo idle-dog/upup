@@ -1,8 +1,13 @@
 // 页面初始化
 
-exports.init = function(selector, options){
+exports.init = function (selector, options) {
     new Vue({
         el: selector,
+        data: function () {
+            return {
+                content: ''
+            }
+        },
         replace: false,
         template: __inline('index.html'),
         components: {

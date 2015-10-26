@@ -1,5 +1,6 @@
 <div class="w-textarea">
-    <div class="w-textarea_inner">
-        <textarea class="w-textarea_editor" placeholder="输入举牌文字"></textarea>
+    <div class="w-textarea_inner active">
+        <pre><span>{{content}}</span><br></pre>
+        <textarea class="w-textarea_editor" v-bind:placeholder="placeholder" v-model="content"></textarea>
     </div>
 </div>
