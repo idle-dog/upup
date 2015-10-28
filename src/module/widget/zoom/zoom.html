@@ -1,3 +1,5 @@
 <div class="w-zoom">
-    缩放倍数 {{scale}}
+    <div class="w-zoom_btn" @click="zoomUp">╋</div>
+    <div class="w-zoom_size"><span :style="{top:top}"></span></div>
+    <div class="w-zoom_btn" @click="zoomDown">━</div>
 </div>
