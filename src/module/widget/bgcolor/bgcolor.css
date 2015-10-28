@@ -1,5 +1,33 @@
 
 .w-bgcolor {
+    height: 28px;
     background: #cef;
-    padding: 10px;
+    padding: 10px 0;
+}
+
+.w-bgcolor_color {
+    height: 20px;
+    width: 20px;
+    border: 2px solid rgba(0, 0, 0, 0);
+    margin: 2px 0 2px 10px;
+    float: left;
+    border-radius: 100%;
+    transition: all 0.2s;
+}
+
+.w-bgcolor_selected {
+    transform: scale(1.4);
+    border-color: rgba(0, 0, 0, 0.7);
+    animation: highlight 0.5s;
+}
+@keyframes highlight {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.7);
+    }
+    100% {
+        transform: scale(1.4);
+    }
 }

@@ -12,8 +12,11 @@
 
 module.exports = Vue.extend({
     template: __inline('textarea.html'),
-    props: ['content', 'placeholder'],
-    created: function () {
-        !this.placeholder && (this.placeholder = '输入举牌文字')
+    props: {
+	    content: String,
+	    placeholder: {
+	      type: String,
+	      default: '输入举牌文字'
+	    }
     }
 });

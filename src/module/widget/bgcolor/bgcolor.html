@@ -1,3 +1,7 @@
 <div class="w-bgcolor">
-    背景色拾取
+    <div class="w-bgcolor_color" 
+        v-for="c in colors" 
+        v-bind:style="{ background: c.rgb }"
+        v-bind:class="{ 'w-bgcolor_selected': color === c.rgb }"
+        @click="onSelect(event, c.rgb)"></div>
 </div>
