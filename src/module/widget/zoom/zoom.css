@@ -3,7 +3,7 @@
     height: 100px;
 }
 
-.w-zoom-btn {
+.w-zoom_btn {
     width: 20px;
     height: 20px;
     line-height: 20px;
@@ -14,15 +14,15 @@
     color: #FFF;
 }
 
-.w-zoom-size {
+.w-zoom_size {
     height: 58px;
-    margin: 1px 8px;
+    margin: 1px 9px;
     background-color: #000;
 
     position: relative;
 }
 
-/*.w-zoom-size:after {
+/*.w-zoom_size:after {
     content: "";
     position: absolute;
     top: 20px;
@@ -32,12 +32,12 @@
     background-color: #000;
 }*/
 
-.w-zoom-size span {
+.w-zoom_size span {
     content: "";
     position: absolute;
     /*top: 20px;*/
     right: 0;
     width: 12px;
-    height: 3px;
+    height: 2px;
     background-color: #000;
 }

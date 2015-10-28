@@ -9,7 +9,6 @@
  */
 module.exports = Vue.extend({
     template: __inline('zoom.html'),
-    //props: ['scale'],
     props: {
         scale: {
             type: Number,
@@ -30,24 +29,22 @@ module.exports = Vue.extend({
     },
     data: function () {
         return {
-            height: 58,
-            top: '0px'
+            top: '50%'
         }
     },
-    created: function () {
-        this.count();
+    computed: {
+        top: {
+            get: function () {
+                return (1 - (this.scale - this.min) / (this.max - this.min)) * 100 + '%';
+            }
+        }
     },
     methods: {
-        onChange: function (flag) {
-            if (flag) { // 放大
-                this.scale + this.step <= this.max && (this.scale = (this.scale * 100 + this.step * 100) / 100);
-            } else {    // 缩小
-                this.scale - this.step >= this.min && (this.scale = (this.scale * 100 - this.step * 100) / 100);
-            }
-            this.count();
+        zoomUp: function () {   // 放大
+            this.scale + this.step <= this.max && (this.scale = (this.scale * 100 + this.step * 100) / 100);
         },
-        count: function () {
-            this.top = this.height - (this.height / (this.max / this.scale)) + 'px';
+        zoomDown: function () { // 缩小
+            this.scale - this.step >= this.min && (this.scale = (this.scale * 100 - this.step * 100) / 100);
         }
     }
 });
