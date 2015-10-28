@@ -1,3 +1,6 @@
 <div class="w-zoom">
-    缩放倍数 {{scale}}
+    <!--缩放倍数 {{scale}}-->
+    <div class="w-zoom-btn" @click="onChange(true)">╋</div>
+    <div class="w-zoom-size"><span :style="{top:top}"></span></div>
+    <div class="w-zoom-btn" @click="onChange(false)">━</div>
 </div>
