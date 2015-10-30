@@ -1,0 +1,22 @@
+module.exports = {
+	peopleImage : __inline('./img/people.png'),
+	handImage : __inline('./img/hand.png'),
+	brandImage : __inline('./img/brand.png'),
+	peopleTotal : 20,
+	brandTotal : 12,
+	handTotal : 1,
+	peopleOffsetX : 0,
+	peopleOffsetY : 42,
+	brandOffsetX: 20,
+	brandOffsetY : 0,
+	handOffsetX : 67,
+	handOffsetY : 56,
+	textOffsetX : 50,
+	textOffsetY : 38,
+	singleWordWidth: 114,
+	singleWordHeight: 165,
+	singleWordOffsetX : -58,
+	singleWordOffsetY : 19,
+	canvasHeight: 600,
+	textStyle : "30px Lantinghei SC"
+}

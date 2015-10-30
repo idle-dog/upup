@@ -10,6 +10,11 @@
     right: 5px;
 }
 
+.w-display_img {
+	height: 100%;
+	overflow: hidden
+}
+
 .w-display_refresh {
     position: absolute;
     bottom: 5px;
