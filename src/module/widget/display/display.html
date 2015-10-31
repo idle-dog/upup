@@ -6,7 +6,5 @@
     <div class="w-display_zoom">
         <w-zoom :scale.sync="scale"></w-zoom>
     </div>
-    <div class="w-display_refresh" @click.prevent.stop="_draw">
-        刷新
-    </div>
+    <a class="w-display_refresh" @click.prevent.stop="refresh"></a>
 </div>
