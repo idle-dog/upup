@@ -10,8 +10,27 @@
     right: 5px;
 }
 
+.w-display_img {
+	height: 100%;
+	overflow: auto;
+}
+
+.w-display_img img {
+	vertical-align: top;
+}
+
 .w-display_refresh {
     position: absolute;
     bottom: 5px;
     right: 5px;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-image: url('./img/refresh.png?__inline');
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+
+.w-display_refresh:active {
+	transform: rotate(180deg);
 }

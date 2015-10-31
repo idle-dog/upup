@@ -1,15 +1,10 @@
 <div class="w-display" :style="{backgroundColor: color}">
-    <h2>这里是显示区</h2><br/>
-    <ul>
-        <li>当前内容: {{content}}</li>
-        <li>缩放比例: {{scale}}</li>
-        <li>背景色: {{color}}</li>
-    </ul>
+    <div class="w-display_img" v-el="imageWrap">
+        <img :src="src">
+    </div> 
 
     <div class="w-display_zoom">
         <w-zoom :scale.sync="scale"></w-zoom>
     </div>
-    <div class="w-display_refresh">
-        刷新
-    </div>
+    <a class="w-display_refresh" @click.prevent.stop="refresh"></a>
 </div>
