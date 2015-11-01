@@ -37,6 +37,26 @@ function loadImages(urls, cb) {
     })
 }
 
+//保留透明通道, 避免直接使用putImageData方法
+function mergeImageData(imgData1, imgData2, dx, dy) {
+    var w1 = imgData1.width
+    var w2 = imgData2.width
+    var h2 = imgData2.height
+    for(var y=dy; y<dy+h2; y++) {
+        for(var x=dx; x<dx + w2; x++) {
+            var i = (w1*y + x) * 4
+            var n =  (w2*(y-dy) + x - dx) * 4
+            if(imgData2.data[n+3] != 0) {
+                imgData1.data[i]= imgData2.data[n]
+                imgData1.data[i+1]= imgData2.data[n+1]
+                imgData1.data[i+2]= imgData2.data[n+2]
+                imgData1.data[i+3]= imgData2.data[n+3]
+            }
+        }
+    }
+    return imgData1
+}
+
 //指定宽高，创建canvas，返回context
 function createCanvas(width, height) {
     var canvas    = document.createElement('canvas')
@@ -48,33 +68,22 @@ function createCanvas(width, height) {
     return ctx
 }
 
-//从context获取图片
-function getCanvasImage(ctx) {
-    var img     = new Image()
-    img._width  = ctx._width
-    img._height = ctx._height
-    img.src     = ctx.canvas.toDataURL("image/png", 1.0)
-    return img
-}
-
 //均分图片，保存成数组
 function splitImage(img, total) {
     if (!img.width || !img.height) {
         console.error('无法读取图片宽高')
     }
 
-    var ctx    = createCanvas(img.width, img.height)
-    var images = []
+    var ctx           = createCanvas(img.width, img.height)
+    var imageDataList = []
     ctx.drawImage(img, 0, 0)
     for (var i = 0; i < total; i++) {
         var w    = ctx._width / total
         var h    = ctx._height
         var data = ctx.getImageData(w * i, 0, w, h)
-        var ctx2 = createCanvas(w, h)
-        ctx2.putImageData(data, 0, 0)
-        images.push(getCanvasImage(ctx2))
+        imageDataList.push(data)
     }
-    return images
+    return imageDataList
 }
 
 
@@ -106,40 +115,42 @@ function drawText(word, w, h) {
     ctx.textBaseline = 'middle'
     ctx.fillStyle    = config.textColor
     ctx.fillText(word, config.textOffsetX, config.textOffsetY)
-    var img          = getCanvasImage(ctx)
-    return img
+    var data = ctx.getImageData(0, 0, w, h)
+    return data
 }
 
 //绘制单个举牌子
 function drawSingleItem(word, scale) {
-    var pImg = peopleImages.pop()
+    var pData = peopleImages.pop()
     //牌子固定为一种，不随机变化
-    var bImg = brandImages.array[config.brandIndex] || brandImages.pop()
-    var hImg = handImages.pop()
-    var w    = config.singleItemWidth * scale
-    var h    = config.singleItemHeight * scale
-    var ctx  = createCanvas(w, h)
-    var tImg = drawText(word, bImg._width, bImg._height)
-
-    ctx.scale(scale, scale)
+    var bData = brandImages.array[config.brandIndex] || brandImages.pop()
+    var hData = handImages.pop()
+    var w     = config.singleItemWidth
+    var h     = config.singleItemHeight
+    var ctx   = createCanvas(w, h)
+    var tData = drawText(word, bData.width, bData.height)
+    var imgData = ctx.createImageData(config.singleItemWidth , config.singleItemHeight)
     //绘制小人
-    ctx.drawImage(pImg, 0, 0, pImg._width, pImg._height, config.peopleOffsetX, config.peopleOffsetY, pImg._width, pImg._height)
+    mergeImageData(imgData, pData, config.peopleOffsetX, config.peopleOffsetY)
     //绘制牌子
-    ctx.drawImage(bImg, 0, 0, bImg._width, bImg._height, config.brandOffsetX, config.brandOffsetY, bImg._width, bImg._height)
+    mergeImageData(imgData, bData, config.brandOffsetX, config.brandOffsetY)
     //绘制手
-    ctx.drawImage(hImg, 0, 0, hImg._width, hImg._height, config.handOffsetX, config.handOffsetY, hImg._width, hImg._height)
+    mergeImageData(imgData, hData, config.handOffsetX, config.handOffsetY)
     //绘制文字
-    ctx.drawImage(tImg, 0, 0, bImg._width, bImg._height, config.brandOffsetX, config.brandOffsetY, bImg._width, bImg._height)
-    return ctx
+    mergeImageData(imgData, tData, config.brandOffsetX, config.brandOffsetY)
+    return imgData
+    //ctx.putImageData(imgData, 0, 0)
+    //ctx.scale(scale, scale)
+    //return ctx.getImageData(0, 0, w, h)
 }
 
 //绘制完整的content内容
 function drawContent(content, scale) {
     var words = content.split('')
-    var w     = config.singleItemWidth * scale
-    var h     = config.singleItemHeight * scale
-    var x     = config.singleItemOffsetX * scale
-    var y     = config.singleItemOffsetY * scale
+    var w     = config.singleItemWidth
+    var h     = config.singleItemHeight
+    var x     = config.singleItemOffsetX
+    var y     = config.singleItemOffsetY
     //画布最大宽度
     var maxWidth = window.innerWidth
     //每行最多显示个数
@@ -151,16 +162,19 @@ function drawContent(content, scale) {
     //画布最大高度
     var maxHeight = Math.floor((words.length / maxNum)) * h + Math.max(lastLineHeight, addedHeight)
 
-    var ctx = createCanvas(maxWidth, maxHeight)
+    var ctx  = createCanvas(maxWidth, maxHeight)
+    ctx.scale(scale, scale)
+    var imgData1 = ctx.createImageData(maxWidth, maxHeight)
     words.forEach(function (word, i) {
-        var img    = getCanvasImage(drawSingleItem(word, scale))
-        var col    = i % maxNum
-        var row    = Math.floor(i / maxNum)
-        img.onload = function () {
-            ctx.drawImage(img, 0, 0, w, h, (w + x) * col, (h * row) + (y * col), w, h)
-        }
+        var imgData2 = drawSingleItem(word, scale)
+        var col     = i % maxNum
+        var row     = Math.floor(i / maxNum)
+        //ctx.putImageData(imgData2, (w + x) * col, (h * row) + (y * col), 0, 0, w, h)
+        mergeImageData(imgData1, imgData2, (w + x) * col, (h * row) + (y * col))
     })
-    return ctx
+    //var data = ctx.getImageData(0, 0, maxWidth, maxHeight)
+    //return data
+    return imgData1
 }
 
 //绘制背景
@@ -210,15 +224,11 @@ module.exports = Vue.extend({
         },
         draw   : function () {
             var self = this
-            var ctx  = createCanvas(this.contentLayer._width, this.contentLayer._height)
+            var ctx  = createCanvas(this.contentLayer.width, this.contentLayer.height)
             //绘制背景
             drawBackground(ctx, this.color)
-            //绘制内容， 需要内容图片加载完成之后调用drawImage，否则可能无法绘制上
-            var contentImage    = getCanvasImage(this.contentLayer)
-            contentImage.onload = function () {
-                ctx.drawImage(getCanvasImage(self.contentLayer), 0, 0)
-                self.src = ctx.canvas.toDataURL()
-            }
+            ctx.putImageData(self.contentLayer, 0, 0)
+            self.src = ctx.canvas.toDataURL()
         }
     }
 })
