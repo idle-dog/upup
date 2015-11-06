@@ -44,23 +44,29 @@ function mergeImageData(imgData1, imgData2, dx, dy) {
     var w1 = imgData1.width
     var w2 = imgData2.width
     var h2 = imgData2.height
+    var d1 = imgData1.data
+    var d2 = imgData2.data
     for (var y = dy; y < dy + h2; y++) {
         for (var x = dx; x < dx + w2; x++) {
             var i = (w1 * y + x) * 4
             var n = (w2 * (y - dy) + x - dx) * 4
-            if (imgData2.data[n + 3] != 0) {
-                if (imgData2.data[n + 3] == 255) {
-                    imgData1.data[i]     = imgData2.data[n]
-                    imgData1.data[i + 1] = imgData2.data[n + 1]
-                    imgData1.data[i + 2] = imgData2.data[n + 2]
-                    imgData1.data[i + 3] = imgData2.data[n + 3]
+            if (d2[n + 3] != 0) {
+                if (d2[n + 3] == 255) {
+                    d1[i]     = d2[n]
+                    d1[i + 1] = d2[n + 1]
+                    d1[i + 2] = d2[n + 2]
+                    d1[i + 3] = d2[n + 3]
                 } else {
-                    //https://developer.nvidia.com/content/alpha-blending-pre-or-not-pre
-                    //TODO 颜色混合算法需要修改, 最好能找到drawImage的源码
-                    var a2               = imgData2.data[n + 3] / 255
-                    imgData1.data[i]     = (imgData2.data[n] * a2) + (imgData1.data[i] * (1.0 - a2))
-                    imgData1.data[i + 1] = (imgData2.data[n + 1] * a2) + (imgData1.data[i + 1] * (1.0 - a2))
-                    imgData1.data[i + 2] = (imgData2.data[n + 2] * a2) + (imgData1.data[i + 2] * (1.0 - a2))
+                    //http://stackoverflow.com/questions/726549/algorithm-for-additive-color-mixing-for-rgb-values
+                    var a1 = imgData1.data[i + 3] / 255
+                    var a2 = imgData2.data[n + 3] / 255
+                    var a  = 1 - (1 - a1) * (1 - a2)
+                    if (a < 1.0e-6) return
+
+                    d1[i]     = d2[n] * a2 / a + d1[i] * a1 * (1 - a2) / a
+                    d1[i + 1] = d2[n + 1] * a2 / a + d1[i + 1] * a1 * (1 - a2) / a
+                    d1[i + 2] = d2[n + 2] * a2 / a + d1[i + 2] * a1 * (1 - a2) / a
+                    d1[i + 3] = a * 255
                 }
             }
         }
@@ -171,16 +177,16 @@ function drawContent(content, scale, useCache) {
     //画布最大高度
     var maxHeight = Math.floor((words.length / maxNum)) * h + Math.max(lastLineHeight, addedHeight)
     //画布实际宽度
-    var factWidth =  Math.min(maxWidth, words.length * (w + x) - x)
+    var factWidth = Math.min(maxWidth, words.length * (w + x) - x)
 
-    var ctx = createCanvas(factWidth, maxHeight)
+    var ctx      = createCanvas(factWidth, maxHeight)
     var imgData1 = ctx.createImageData(factWidth, maxHeight)
     words.forEach(function (word, i) {
-        var imgData2 = useCache ? cacheSingleItems[i] : drawSingleItem(word)
+        var imgData2        = useCache ? cacheSingleItems[i] : drawSingleItem(word)
         cacheSingleItems[i] = imgData2
-        imgData2 = makeScale(imgData2, scale, scale)
-        var col      = i % maxNum
-        var row      = Math.floor(i / maxNum)
+        imgData2            = makeScale(imgData2, scale, scale)
+        var col             = i % maxNum
+        var row             = Math.floor(i / maxNum)
         mergeImageData(imgData1, imgData2, (w + x) * col, (h * row) + (y * col))
     })
     return imgData1
@@ -188,11 +194,11 @@ function drawContent(content, scale, useCache) {
 
 //缩放imgData
 function makeScale(imgData, scaleX, scaleY) {
-    var ctx = createCanvas(imgData.width, imgData.height)
+    var ctx  = createCanvas(imgData.width, imgData.height)
     var ctx2 = createCanvas(imgData.width * scaleX, imgData.height * scaleY)
-    ctx.putImageData(imgData, 0 , 0)
+    ctx.putImageData(imgData, 0, 0)
     ctx2.scale(scaleX, scaleY)
-    ctx2.drawImage(ctx.canvas, 0 , 0)
+    ctx2.drawImage(ctx.canvas, 0, 0)
     return ctx2.getImageData(0, 0, imgData.width * scaleX, imgData.height * scaleY)
 }
 
