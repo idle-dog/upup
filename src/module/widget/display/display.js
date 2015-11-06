@@ -10,6 +10,9 @@ var brandImages = null
 //手掌图片
 var handImages = null
 
+//缓存的单个小人绘制结果
+var cacheSingleItems = []
+
 //资源图片准备完毕
 function resourceReady(cb) {
     loadImages([config.peopleImage, config.brandImage, config.handImage], function (imgs) {
@@ -28,8 +31,7 @@ function loadImages(urls, cb) {
         var img    = new Image()
         img.onload = function () {
             imgs[i] = img
-            loaded++
-            if (loaded == urls.length) {
+            if (++loaded == urls.length) {
                 cb(imgs)
             }
         }
@@ -42,22 +44,24 @@ function mergeImageData(imgData1, imgData2, dx, dy) {
     var w1 = imgData1.width
     var w2 = imgData2.width
     var h2 = imgData2.height
-    for(var y=dy; y<dy+h2; y++) {
-        for(var x=dx; x<dx + w2; x++) {
-            var i = (w1*y + x) * 4
-            var n =  (w2*(y-dy) + x - dx) * 4
-            if(imgData2.data[n+3] != 0) {
-                imgData1.data[i]= imgData2.data[n]
-                imgData1.data[i+1]= imgData2.data[n+1]
-                imgData1.data[i+2]= imgData2.data[n+2]
-                imgData1.data[i+3]= imgData2.data[n+3]
-                //var a1 = imgData1.data[i+3]/256
-                //var a2 = imgData2.data[n+3]/256
-                //var alpha = a2 + a1 * (1 - a2)
-                //imgData1.data[i] = (imgData2.data[n] * alpha + imgData1.data[i] * a1 * (1 - a2)) / alpha
-                //imgData1.data[i+1] = (imgData2.data[n+1] * alpha + imgData1.data[i+1] * a1 * (1 - a2)) / alpha
-                //imgData1.data[i+2] = (imgData2.data[n+2] * alpha + imgData1.data[i+2] * a1 * (1 - a2)) / alpha
-                //imgData1.data[i+3] = alpha * 256
+    for (var y = dy; y < dy + h2; y++) {
+        for (var x = dx; x < dx + w2; x++) {
+            var i = (w1 * y + x) * 4
+            var n = (w2 * (y - dy) + x - dx) * 4
+            if (imgData2.data[n + 3] != 0) {
+                if (imgData2.data[n + 3] == 255) {
+                    imgData1.data[i]     = imgData2.data[n]
+                    imgData1.data[i + 1] = imgData2.data[n + 1]
+                    imgData1.data[i + 2] = imgData2.data[n + 2]
+                    imgData1.data[i + 3] = imgData2.data[n + 3]
+                } else {
+                    //https://developer.nvidia.com/content/alpha-blending-pre-or-not-pre
+                    //TODO 颜色混合算法需要修改, 最好能找到drawImage的源码
+                    var a2               = imgData2.data[n + 3] / 255
+                    imgData1.data[i]     = (imgData2.data[n] * a2) + (imgData1.data[i] * (1.0 - a2))
+                    imgData1.data[i + 1] = (imgData2.data[n + 1] * a2) + (imgData1.data[i + 1] * (1.0 - a2))
+                    imgData1.data[i + 2] = (imgData2.data[n + 2] * a2) + (imgData1.data[i + 2] * (1.0 - a2))
+                }
             }
         }
     }
@@ -73,15 +77,6 @@ function createCanvas(width, height) {
     ctx._width    = width
     ctx._height   = height
     return ctx
-}
-
-//从context获取图片
-function getCanvasImage(ctx) {
-    var img = new Image()
-    img._width = ctx._width
-    img._height = ctx._height
-    img.src = ctx.canvas.toDataURL("image/png", 1.0)
-    return img
 }
 
 //均分图片，保存成数组
@@ -124,27 +119,26 @@ function getRandomPopArray(array) {
 
 //绘制单个文字
 function drawText(word, w, h) {
-    var ctx          = createCanvas(w, h)
+    var ctx = createCanvas(w, h)
     ctx.transform(0.766044, 0.242788, -0.742788, 0.766044, 34, -5)
     ctx.font         = config.textStyle
     ctx.textAlign    = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillStyle    = config.textColor
     ctx.fillText(word, config.textOffsetX, config.textOffsetY)
-    var data = ctx.getImageData(0, 0, w, h)
-    return data
+    return ctx.getImageData(0, 0, w, h)
 }
 
 //绘制单个举牌子
 function drawSingleItem(word) {
     var pData = peopleImages.pop()
     //牌子固定为一种，不随机变化
-    var bData = brandImages.array[config.brandIndex] || brandImages.pop()
-    var hData = handImages.pop()
-    var w     = config.singleItemWidth
-    var h     = config.singleItemHeight
-    var ctx   = createCanvas(w, h)
-    var tData = drawText(word, bData.width, bData.height)
+    var bData   = brandImages.array[config.brandIndex] || brandImages.pop()
+    var hData   = handImages.pop()
+    var w       = config.singleItemWidth
+    var h       = config.singleItemHeight
+    var ctx     = createCanvas(w, h)
+    var tData   = drawText(word, bData.width, bData.height)
     var imgData = ctx.createImageData(w, h)
 
     //绘制小人
@@ -160,13 +154,12 @@ function drawSingleItem(word) {
 }
 
 //绘制完整的content内容
-function drawContent(content, scale) {
-    scale = 1
+function drawContent(content, scale, useCache) {
     var words = content.split('')
-    var w     = config.singleItemWidth * scale
-    var h     = config.singleItemHeight * scale
-    var x     = config.singleItemOffsetX * scale
-    var y     = config.singleItemOffsetY * scale
+    var w     = Math.round(config.singleItemWidth * scale)
+    var h     = Math.round(config.singleItemHeight * scale)
+    var x     = Math.round(config.singleItemOffsetX * scale)
+    var y     = Math.round(config.singleItemOffsetY * scale)
     //画布最大宽度
     var maxWidth = window.innerWidth
     //每行最多显示个数
@@ -177,19 +170,30 @@ function drawContent(content, scale) {
     var addedHeight = (maxNum - 1) * y
     //画布最大高度
     var maxHeight = Math.floor((words.length / maxNum)) * h + Math.max(lastLineHeight, addedHeight)
+    //画布实际宽度
+    var factWidth =  Math.min(maxWidth, words.length * (w + x) - x)
 
-    var ctx  = createCanvas(maxWidth, maxHeight)
-    //ctx.scale(scale, scale)
-    var imgData1 = ctx.createImageData(maxWidth, maxHeight)
+    var ctx = createCanvas(factWidth, maxHeight)
+    var imgData1 = ctx.createImageData(factWidth, maxHeight)
     words.forEach(function (word, i) {
-        var imgData2 = drawSingleItem(word)
-        var col     = i % maxNum
-        var row     = Math.floor(i / maxNum)
+        var imgData2 = useCache ? cacheSingleItems[i] : drawSingleItem(word)
+        cacheSingleItems[i] = imgData2
+        imgData2 = makeScale(imgData2, scale, scale)
+        var col      = i % maxNum
+        var row      = Math.floor(i / maxNum)
         mergeImageData(imgData1, imgData2, (w + x) * col, (h * row) + (y * col))
     })
-    //ctx.putImageData(imgData1, 0, 0)
-    //console.log(ctx.canvas.toDataURL())
-    return  imgData1
+    return imgData1
+}
+
+//缩放imgData
+function makeScale(imgData, scaleX, scaleY) {
+    var ctx = createCanvas(imgData.width, imgData.height)
+    var ctx2 = createCanvas(imgData.width * scaleX, imgData.height * scaleY)
+    ctx.putImageData(imgData, 0 , 0)
+    ctx2.scale(scaleX, scaleY)
+    ctx2.drawImage(ctx.canvas, 0 , 0)
+    return ctx2.getImageData(0, 0, imgData.width * scaleX, imgData.height * scaleY)
 }
 
 //绘制背景
@@ -224,7 +228,7 @@ module.exports = Vue.extend({
             this.draw()
         },
         scale  : function (val, oldVal) {
-            this.contentLayer = drawContent(this.content, val)
+            this.contentLayer = drawContent(this.content, val, true)
             this.draw()
         },
         color  : function (val, oldVal) {
@@ -238,15 +242,15 @@ module.exports = Vue.extend({
             this.draw()
         },
         draw   : function () {
-            var w = this.contentLayer.width
-            var h = this.contentLayer.height
-            var ctx  = createCanvas(w, h)
+            var w   = this.contentLayer.width
+            var h   = this.contentLayer.height
+            var ctx = createCanvas(w, h)
             //绘制背景
             drawBackground(ctx, this.color)
             //绘制内容
             var imgData = mergeImageData(ctx.getImageData(0, 0, w, h), this.contentLayer, 0, 0)
             ctx.putImageData(imgData, 0, 0)
-			this.src =  ctx.canvas.toDataURL()
+            this.src = ctx.canvas.toDataURL()
         }
     }
 })
