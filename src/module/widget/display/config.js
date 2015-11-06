@@ -38,7 +38,7 @@ module.exports = {
 	//第二个牌子相对第一个牌子后，向下的偏移
 	singleItemOffsetY : 19,
 	//文字样式
-	textStyle : "30px Lantinghei SC",
+	textStyle : "30px SimHei",
 	//文字颜色
 	textColor : '#639DD3'
 }

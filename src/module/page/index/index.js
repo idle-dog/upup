@@ -5,7 +5,7 @@ exports.init = function (selector, options) {
         el: selector,
         data: function () {
             return {
-                content: '写些你想说的话,\n用换行排列小人!',
+                content: 'UPUP!',
                 scale: 1,
                 color: '#FC7D63'
             }
