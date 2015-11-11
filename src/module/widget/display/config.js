@@ -26,9 +26,9 @@ module.exports = {
 	//手y偏移
 	handOffsetY : 56,
 	//文字相对牌子x偏移
-	textOffsetX : 45,
+	textOffsetX : 43,
 	//文字相对牌子y偏移
-	textOffsetY : 28,
+	textOffsetY : 30,
 	//单个举牌子宽度
 	singleItemWidth: 114,
 	//单个举牌子高度
@@ -38,7 +38,7 @@ module.exports = {
 	//第二个牌子相对第一个牌子后，向下的偏移
 	singleItemOffsetY : 19,
 	//文字样式
-	textStyle : "bold 30px Lantinghei SC",
+	textStyle : "30px SimHei",
 	//文字颜色
 	textColor : '#639DD3'
 }
